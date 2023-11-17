@@ -1,0 +1,50 @@
+NE Name: ROC1119-ATN950D-01
+East Port IP: 10.117.133.6
+East Port Description: east-port ROC-AR133 -> GGS504-CX01-01 ROC0000-CX08-01A G6/0/2.10
+West Port IP: 10.117.133.21
+West Port Description: west-port ROC-AR133 -> ROC0000-CX08-01B G6/0/2.10
+LoopBack0: 10.117.133.201
+LoopBack1: 10.205.34.201
+Software version: ATN 950DV800R022C00SPC600(VRPV800R022C01SPC500)
+Patch version: SPH120
+Version: V800R022SPH120
+##########
+EAST
+East NE Name: GGS504-CX01-01
+West Port Description of East NE: west-port ROC-AR133 -> ROC1119-ATN950D-01 ROC0000-CX08-01B G6/0/2.10
+##########
+WEST
+West NE Name: ROC0000-CX08-01B
+East Port Description of West NE: west-port ROC-AR133 [ROC1119-ATN950D-01 G0/2/0.10]
+
+NE Name: ROC0227-ATN910CG-01
+East Port IP: 10.102.210.2
+East Port Description: east-port ROC-AR210 -> ROC0000A-CX08-03A G3/0/3.10
+West Port IP: 10.102.210.5
+West Port Description: west-port ROC-AR210 -> KPJ333-ATN950D-01 ROC0000A-CX08-03B G3/0/3.10
+LoopBack0: 10.102.210.202
+LoopBack1: 10.205.35.60
+Software version: ATN 910C-GV800R022C00SPC600(VRPV800R022C01SPC500)
+Patch version: SPH120
+Version: V800R022SPH120
+##########
+EAST
+East NE Name: ROC0000A-CX08-03A
+West Port Description of East NE: east-port ROC-AR120 [RYC0227-ATN910CG-01 G0/2/0.10]
+##########
+WEST
+West NE Name: KPJ333-ATN950D-01
+East Port Description of West NE: east-port ROC-AR210 -> ROC0227-ATN910CG-01 ROC0000A-CX08-03A G3/0/3.10
+
+NE Name: R0C1006-ATN950D-01
+East Port IP: 10.117.133.6
+East Port Description: east-port ROC-AR133 -> GGS504-CX01-01 ROC0000-CX08-01A G6/0/2.10
+West Port IP: 10.117.133.21
+West Port Description: west-port ROC-AR133 -> ROC0000-CX08-01B G6/0/2.10
+LoopBack0: 10.117.133.201
+LoopBack1: 10.205.34.201
+Software version: ATN 950DV800R022C00SPC600(VRPV800R022C01SPC500)
+Patch version: SPH120
+Version: V800R022SPH120
+ERROR: Please check the East and West NEs in NCE manually
+

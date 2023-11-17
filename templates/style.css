@@ -1,0 +1,43 @@
+/* Center the header and form content vertically and horizontally */
+body {
+    align-items: center;
+    justify-content: center; /* Center content both horizontally and vertically */
+    min-height: 100vh;
+    margin: 0;
+}
+
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 100% of the viewport height */
+}
+/* Style the form elements */
+h1, form {
+    text-align: center;
+    max-width: 600px;
+}
+
+/* Add some spacing between form elements */
+label, textarea, input {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/* Style the table for better readability */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
