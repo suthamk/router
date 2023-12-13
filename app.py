@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import io
 from openpyxl import Workbook,load_workbook
+from openpyxl.styles import PatternFill,Font, Alignment,Border,Side
 
 
 app = Flask(__name__)
@@ -45,6 +46,57 @@ def create_template(data):
         sheet.append(item)
 
     return template_wb
+
+def create_iNMS_template(data):
+    # Create a new workbook
+    wb = Workbook()
+    sheet = wb.active
+    headers = [
+        "S/N",
+        "Group Name (My Network)",
+        "Hostname",
+        "IP Address",
+        "SNMP Version (SNMPv1 is not allowed)",
+        "Credentials for SNMPv2"
+    ]
+    sheet.append(headers)
+    header_row=sheet[1]
+
+    fill = PatternFill(start_color="99CC00", end_color="99CC00", fill_type="solid")
+    font = Font(bold=True, name='Arial',size=10)
+    font_text=Font(name='Arial',size=10)
+    alignment = Alignment(horizontal='center')
+    border = Border(bottom=Side(border_style="thin"))
+    for cell in header_row:
+        cell.fill = fill
+        cell.font = font
+        cell.alignment = alignment
+        cell.border= border
+    # Write data to the worksheet
+    series_number = 1
+    for item in data:
+        # Check if the length of the item is at least 2
+        if len(item) == 2:
+            # Extract the necessary information from the item
+            group_name = "PCTN - ATN950D" if "ATN950D" in item[0] else "PCTN - ATN910CG"
+            hostname = item[0]
+            ip_address = item[1]
+
+            # Append a new row with the extracted information
+            row_data = [series_number, group_name, hostname, ip_address, 'SNMPv2', 'PCTN-read']
+            sheet.append(row_data)
+
+            series_number += 1
+        else:
+            # Create a separate row for errors
+            error_row = ['Error'] * len(headers)
+            sheet.append(error_row)
+                # Apply borders to the row
+        for cell in sheet[sheet.max_row]:
+            cell.border = border
+            cell.font=font_text
+
+    return wb
 
 def read_data_from_file(file_path):
     with open(file_path, 'r') as file:
@@ -123,7 +175,7 @@ def update_router_db():
 
 @app.route('/download_router_db', methods=['GET'])
 def download_router_db():
-    router_db_file = '/home/rancid/test/router.db'
+    router_db_file = '/home/rancid/router_db/router.db'
     return send_file(router_db_file, as_attachment=True)
 
 @app.route('/generate_template', methods=['POST'])
@@ -162,5 +214,38 @@ def generate_template():
         as_attachment=True,
         download_name='ise_output_file.xlsx'
     )
+
+@app.route('/generate_inms_template',methods=['POST'])
+def generate_inms_template():
+    input_text = request.form['iNMS']
+    # Modify the input.txt file
+    with open('input.txt', 'w') as file:
+        file.write(input_text)
+    # Execute the script located in /home/rancid/test
+    script_path = '/home/rancid/test/app_ise.sh'
+    subprocess.run(['bash', script_path])
+    # Read data from a file (in this case, a CSV file)
+    output_file_path = '/home/rancid/test/output.txt'
+    data = read_data_from_file(output_file_path)
+    # Create the Excel template with data from the file
+    wb = create_iNMS_template(data)
+    # Specify the path for the output file with a dynamic file name
+    current_datetime_str = datetime.now().strftime("%Y%m%d")
+    output_file_name = 'NMS_V2.0_{}.xlsx'.format(current_datetime_str)
+    output_file_path = '/home/rancid/test/{}'.format(output_file_name)
+
+    # Save the workbook to a BytesIO object
+    excel_file = io.BytesIO()
+    wb.save(excel_file)
+    excel_file.seek(0)
+
+    return send_file(
+        excel_file,
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        as_attachment=True,
+        download_name= output_file_name
+    )
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
+

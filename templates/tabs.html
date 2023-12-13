@@ -53,13 +53,14 @@
   <h2>Node DB Update</h2>
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#Node-Insertion">Node Insertion</a></li>
-    <li><a data-toggle="tab" href="#Node-Deletion">Node Deletion</a></li>
     <li><a data-toggle="tab" href="#ISE">ISE Update</a></li>
+    <li><a data-toggle="tab" href="#iNMS">iNMS Update</a></li>
     <li><a data-toggle="tab" href="#RouterDB">RouterDB</a></li>
+    <li><a data-toggle="tab" href="#Node-Deletion">Node Deletion</a></li>
   </ul>
   <div class="tab-content">
     <div id="Node-Insertion" class="tab-pane fade in active">
-        <h3>Node insertion</h1>
+        <h3>Node insertion</h3>
         <form method="POST">
             <label for="Node">Input:</label>
             <br>
@@ -111,12 +112,8 @@
         </form>
         {% endif %}
     </div>
-    <div id="Node-Deletion" class="tab-pane fade">
-      <h3>Node Deletion</h3>
-      <p>To be updated</p>
-    </div>
     <div id="ISE" class="tab-pane fade">
-        <h3>ISE Node insertion</h1>
+        <h3>ISE Node insertion</h3>
         <form method="post" action="{{ url_for('generate_template') }}">
             <label for="ISE_Node">Input:</label>
             <br>
@@ -125,12 +122,27 @@
             <input class="btn btn-primary" type="submit" value="Generate Template">
             <br>
         </form>
-      </div>
+    </div>
+    <div id="iNMS" class="tab-pane fade">
+        <h3>iNMS Node insertion</h3>
+        <form method="post" action="{{ url_for('generate_inms_template') }}">
+            <label for="iNMS">Input:</label>
+            <br>
+            <textarea name="iNMS" id="iNMS" rows="4" cols="50"></textarea>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Generate Template">
+            <br>
+        </form>
+    </div>
     <div id="RouterDB" class="tab-pane fade">
-      <h3>RouterDB</h3>
+        <h3>RouterDB</h3>
         <p>The router.db file was last modified on {{ last_modified_datetime.strftime('%Y-%m-%d %H:%M:%S') }}.</p>
         <p>You can download the latest router.db file here:</p>
         <a href="{{ url_for('download_router_db') }}">Download Router DB</a>
+    </div>
+    <div id="Node-Deletion" class="tab-pane fade">
+        <h3>Node Deletion</h3>
+        <p>To be updated</p>
     </div>
   </div>
 </div>
